@@ -14,12 +14,13 @@ const buttonEl = document.querySelector('.btn');
 const favouriteListEl = document.querySelector('.favourites__list');
 
 const savedFavourites =  JSON.parse(localStorage.getItem('favouritesArray'));
-const favouritesArray = [];
+const favouritesArray = savedFavourites || []; 
 printFavourites();
 
 //Añadir listener de click a button
 //En la función añadir el value del input a la URL de búsqueda.
 //Recoger título e imagen de la info recibida.
+
 function printerSeries(data) {
     for (let showEl of data) {
         const seriesEl = showEl.show;
@@ -80,13 +81,13 @@ function likeShow() {
         favouritesArray.push(obj);
         console.log(favouritesArray);
         favouriteListEl.innerHTML = '';
-        printFavourites();
-        localStorage.setItem('favouritesArray', JSON.stringify(favouritesArray));
         showElement.classList.remove('no-favourite');
         }
         else {
 
         }
+        printFavourites();
+        localStorage.setItem('favouritesArray', JSON.stringify(favouritesArray));
     }
 
 }
