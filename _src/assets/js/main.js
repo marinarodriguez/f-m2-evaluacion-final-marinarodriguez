@@ -82,12 +82,13 @@ function likeShow() {
         console.log(favouritesArray);
         favouriteListEl.innerHTML = '';
         showElement.classList.remove('no-favourite');
+        localStorage.setItem('favouritesArray', JSON.stringify(favouritesArray));
+        printFavourites();
         }
         else {
-
         }
-        printFavourites();
-        localStorage.setItem('favouritesArray', JSON.stringify(favouritesArray));
+        //printFavourites();
+        //localStorage.setItem('favouritesArray', JSON.stringify(favouritesArray));
     }
 
 }
