@@ -11,27 +11,29 @@
     <body>
         <div class="page">
             <header class="page__header">
-                 <h1>Buscador de series</h1>
+                <div>
+                     <h1 class="title">Buscador de series</h1>
 
+                    <input type="text" id="search" class="search">
+                    <button type="button" class="btn">Search</button>
+                </div>
             </header>
             <main class="page__main">
                 <div class="wrapper">
                     <div class="menu">
-                        <input type="text" id="search" class="search">
-                        <button type="button" class="btn">Search</button>
-                        <aside class="favourite__container">
-                             <h2>Mis series favoritas</h2>
+                        <aside class="favourites__container">
+                             <h2 class="title2">Mis series favoritas <span class="heart">❤</span></h2>
 
                             <ul class="favourites__list"></ul>
                         </aside>
                     </div>
-                </div>
-                <div class="series__container">
-                    <ul class="series__list"></ul>
-                    <!-- <li>
+                    <div class="series__container">
+                        <ul class="series__list"></ul>
+                        <!-- <li>
             <img src="" alt="">
             <h3></h3>
         </li> -->
+                    </div>
                 </div>
             </main>
         </div>
