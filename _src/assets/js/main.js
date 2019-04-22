@@ -2,24 +2,13 @@
 
 console.log('>> Ready :)');
 
-// API http://api.tvmaze.com/search/shows?q=girls
-
-//Recoger ul
-//Recoger Input
-//Recoger Button
-
 const seriesListEl = document.querySelector('.series__list');
 const inputEl = document.querySelector('.search');
 const buttonEl = document.querySelector('.btn');
 const favouriteListEl = document.querySelector('.favourites__list');
-
-const savedFavourites =  JSON.parse(localStorage.getItem('favouritesArray'));
-const favouritesArray = savedFavourites || []; 
+const savedFavourites = JSON.parse(localStorage.getItem('favouritesArray'));
+const favouritesArray = savedFavourites || [];
 printFavourites();
-
-//Añadir listener de click a button
-//En la función añadir el value del input a la URL de búsqueda.
-//Recoger título e imagen de la info recibida.
 
 function printerSeries(data) {
     for (let showEl of data) {
@@ -49,20 +38,21 @@ function printerSeries(data) {
         seriesListEl.appendChild(showLi);
     }
 }
-function printFavourites(){
-for (let favourite of favouritesArray) {
-    const favouriteName = favourite.name;
-    const showLi = document.createElement('li');
-    const showNameEl = document.createElement('h3');
-    const showImageEl = document.createElement('img');
-    const showNameContent = document.createTextNode(favouriteName);
-    const favouriteImage = favourite.image;
-    showImageEl.src = favouriteImage;
-    showNameEl.appendChild(showNameContent);
-    showLi.appendChild(showImageEl);
-    showLi.appendChild(showNameEl);
-    favouriteListEl.appendChild(showLi);
-}
+function printFavourites() {
+    for (let favourite of favouritesArray) {
+        const favouriteName = favourite.name;
+        const showLi = document.createElement('li');
+        const showNameEl = document.createElement('h3');
+        const showImageEl = document.createElement('img');
+        const showNameContent = document.createTextNode(favouriteName);
+        const favouriteImage = favourite.image;
+        showLi.classList.add('favourite');
+        showImageEl.src = favouriteImage;
+        showNameEl.appendChild(showNameContent);
+        showLi.appendChild(showImageEl);
+        showLi.appendChild(showNameEl);
+        favouriteListEl.appendChild(showLi);
+    }
 }
 function likeShow() {
     const showList = document.querySelectorAll('.no-favourite');
@@ -73,22 +63,20 @@ function likeShow() {
         const showImage = showElement.childNodes[0].src;
         const showName = showElement.childNodes[1].innerHTML;
         showElement.classList.toggle('like');
-       
-        if (showElement.classList.contains('no-favourite')){
-        let obj = {};
-        obj["name"] = showName;
-        obj["image"] = showImage;
-        favouritesArray.push(obj);
-        console.log(favouritesArray);
-        favouriteListEl.innerHTML = '';
-        showElement.classList.remove('no-favourite');
-        localStorage.setItem('favouritesArray', JSON.stringify(favouritesArray));
-        printFavourites();
+
+        if (showElement.classList.contains('no-favourite')) {
+            let obj = {};
+            obj["name"] = showName;
+            obj["image"] = showImage;
+            favouritesArray.push(obj);
+            console.log(favouritesArray);
+            favouriteListEl.innerHTML = '';
+            showElement.classList.remove('no-favourite');
+            localStorage.setItem('favouritesArray', JSON.stringify(favouritesArray));
+            printFavourites();
         }
         else {
         }
-        //printFavourites();
-        //localStorage.setItem('favouritesArray', JSON.stringify(favouritesArray));
     }
 
 }

@@ -1,12 +1,25 @@
 @import 'core/settings';
 
 body {
+	font-family: Helvetica, sans-serif;
 	height: 100vh;
+	background-color: rgb(255, 255, 255);
+	margin: 0;
+	box-sizing: border-box;
+	
+}
+.page__header {
+	color: white;
+	display: flex;
+	background-color: rgb(49, 49, 49);
+	justify-content: center;
+	height: 120px;
 }
 .show__element {
-	color: rgb(75, 75, 255);
-	background-color: rgb(214, 214, 255);
-	font-family: Helvetica, sans-serif;
+	color: rgb(255, 255, 255);
+	background-color: rgb(46, 46, 46);
+	border-radius: 5px;
+	box-shadow: 5px 5px 13px -2px rgb(75, 75, 75);
 	display: flex;
 	margin: 20px;
 	flex-direction: column;
@@ -14,19 +27,70 @@ body {
 	font-size: 14px;
 	padding: 5px;
 	text-align: center;
-	border: 2px solid #8b97ff;
 }
 .series__list {
-	
+	display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 .like {
-	color: rgb(214, 214, 255);
-	background-color: rgb(75, 75, 255);
+	color: rgb(255, 255, 255);
+	background-color: rgb(170, 0, 0);
 }
 .wrapper {
 	display: flex;
 }
-.favourite__container{
-	width: 200px;
+.menu {
+	display:flex;
+	flex-direction: row;
 	background-color: rgb(212, 212, 212);
+}
+.favourites__container{
+	
+}
+.favourites__list {
+	list-style-type: none;
+	display: flex;
+	flex-direction: column;
+	background-color: rgb(212, 212, 212);
+	padding: 0;
+	
+}
+.favourite {
+	color: rgb(255, 255, 255);
+	background-color: rgb(170, 0, 0);
+	border-radius: 5px;
+	display: flex;
+	margin: 0px 10px 10px 10px;
+	flex-direction: column;
+	width: 210px;
+	font-size: 14px;
+	padding: 5px;
+	text-align: center;
+	list-style: none;
+}
+.title2{
+	text-align: center;
+	font-size: 18px;
+}
+.heart{
+	color: rgb(180, 0, 0);
+}
+.search {
+	height: 20px;
+	background-color: transparent;
+	border: none;
+	border-bottom: 2px solid white;
+	color: white;
+	font-size: 15px;
+	width: 190px;
+}
+.btn{
+	background-color:white;
+	height: 30px;
+	width: 100px;
+	color: rgb(75, 75, 75);
+	border:none;
+	border-radius: 5px;
+	font-weight:bold;
 }
