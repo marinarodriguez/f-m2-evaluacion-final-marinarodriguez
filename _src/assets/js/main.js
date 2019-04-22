@@ -12,8 +12,11 @@ const seriesListEl = document.querySelector('.series__list');
 const inputEl = document.querySelector('.search');
 const buttonEl = document.querySelector('.btn');
 const favouriteListEl = document.querySelector('.favourites__list');
-let favouritesArray =  JSON.parse(localStorage.getItem('favouritesArray'));
+
+const savedFavourites =  JSON.parse(localStorage.getItem('favouritesArray'));
+const favouritesArray = [];
 printFavourites();
+
 //Añadir listener de click a button
 //En la función añadir el value del input a la URL de búsqueda.
 //Recoger título e imagen de la info recibida.
@@ -38,6 +41,7 @@ function printerSeries(data) {
         }
         showNameEl.classList.add('show-title');
         showLi.classList.add('show__element');
+        showLi.classList.add('no-favourite');
         showNameEl.appendChild(showNameContent);
         showLi.appendChild(showImageEl);
         showLi.appendChild(showNameEl);
@@ -60,7 +64,7 @@ for (let favourite of favouritesArray) {
 }
 }
 function likeShow() {
-    const showList = document.querySelectorAll('.show__element');
+    const showList = document.querySelectorAll('.no-favourite');
     for (let show of showList)
         show.addEventListener('click', likeThisShow);
     function likeThisShow(event) {
@@ -68,6 +72,8 @@ function likeShow() {
         const showImage = showElement.childNodes[0].src;
         const showName = showElement.childNodes[1].innerHTML;
         showElement.classList.toggle('like');
+       
+        if (showElement.classList.contains('no-favourite')){
         let obj = {};
         obj["name"] = showName;
         obj["image"] = showImage;
@@ -75,9 +81,12 @@ function likeShow() {
         console.log(favouritesArray);
         favouriteListEl.innerHTML = '';
         printFavourites();
-        
-        
         localStorage.setItem('favouritesArray', JSON.stringify(favouritesArray));
+        showElement.classList.remove('no-favourite');
+        }
+        else {
+
+        }
     }
 
 }
