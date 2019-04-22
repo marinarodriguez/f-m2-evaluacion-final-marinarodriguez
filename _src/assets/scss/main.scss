@@ -1,6 +1,21 @@
 @import 'core/settings';
 
 body {
-	background: url('../images/logo-adalab-80px.png') center center no-repeat $color-white;
 	height: 100vh;
+}
+.show__element {
+	color: rgb(75, 75, 255);
+	background-color: rgb(214, 214, 255);
+	font-family: Helvetica, sans-serif;
+	display: flex;
+	margin: 20px;
+	flex-direction: column;
+	max-width: 210px;
+	font-size: 14px;
+	padding: 5px;
+	text-align: center;
+	border: 2px solid #8b97ff;
+}
+.series__list {
+	
 }
