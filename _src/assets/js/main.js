@@ -6,31 +6,10 @@ const buttonEl = document.querySelector('.btn');
 const favouriteListEl = document.querySelector('.favourites__list');
 const savedFavourites = JSON.parse(localStorage.getItem('favourites'));
 let favouritesArray = savedFavourites || [];
-const deleteButtonEl = document.querySelector('.btn__delete');
+const deleteButtonEl = document.querySelector('.btn__delete'); 
 printFavourites();
 
-// function getUnique(arr, comp) {
-//     const unique = arr
-//         .map(e => e[comp])
 
-//         // store the keys of the unique objects
-//         .map((e, i, final) => final.indexOf(e) === i && i)
-
-//         // eliminate the dead keys & store unique objects
-//         .filter(e => arr[e]).map(e => arr[e]);
-
-//     return unique;
-// }
-function containsObject(x, array) {
-        for (let i=0; i<array.length; i++){
-        if (x.id === array[i].id) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-}
 const printerSeries = data => {
     for (let showEl of data) {
         const seriesEl = showEl.show;
@@ -79,13 +58,20 @@ function printFavourites() {
         favouriteListEl.appendChild(showLi);
     }
 }
+const containsObject = (obj, array) => {
+    for (let i = 0; i < array.length; i++) {
+        if (obj.id === array[i].id) {
+            return true;
+        }
+    }
+}
 const likeThisShow = event => {
     const showElement = event.currentTarget;
     const showImage = showElement.childNodes[0].src;
     const showName = showElement.childNodes[1].innerHTML;
     const showId = showElement.getAttribute("id");
-    showElement.classList.toggle('like');
-    const obj = {};
+    showElement.classList.add('like');
+    let obj = {};
     obj["name"] = showName;
     obj["image"] = showImage;
     obj["id"] = showId;
@@ -97,15 +83,13 @@ const likeThisShow = event => {
         localStorage.setItem('favourites', JSON.stringify(favouritesArray));
         printFavourites();
     }
-    obj = {};
 }
 const likeShow = () => {
     const showList = document.querySelectorAll('.no-favourite');
     for (let show of showList)
         show.addEventListener('click', likeThisShow);
 }
-function searchSeries() {
-    //clear past search
+const searchSeries = () => {
     seriesListEl.innerHTML = '';
     const inputValue = inputEl.value;
     fetch(`http://api.tvmaze.com/search/shows?q=${inputValue}`)
@@ -117,16 +101,15 @@ function searchSeries() {
             likeShow();
         });
 }
-const removeFavourites = () => {
+const removeAllFavourites = () => {
     localStorage.removeItem('favourites');
     favouriteListEl.innerHTML = '';
     favouritesArray = [];
-    console.log(seriesListEl.children);
     const children = seriesListEl.children;
     for (let child of children) {
-            child.classList.remove('like');
+        child.classList.remove('like');
     }
 }
 buttonEl.addEventListener('click', searchSeries);
-deleteButtonEl.addEventListener('click', removeFavourites);
+deleteButtonEl.addEventListener('click', removeAllFavourites);
 
