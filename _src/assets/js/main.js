@@ -1,7 +1,5 @@
 'use strict';
 
-console.log('>> Ready :)');
-
 const seriesListEl = document.querySelector('.series__list');
 const inputEl = document.querySelector('.search');
 const buttonEl = document.querySelector('.btn');
@@ -19,16 +17,14 @@ function printerSeries(data) {
         const showImageEl = document.createElement('img');
         const showNameContent = document.createTextNode(showName);
         const showImageGlobal = seriesEl.image;
-
         if (!showImageGlobal) {
             showImageEl.src = "https://via.placeholder.com/210x295/444444/ffffff/?text=" + showName + "";
-            showImageEl.alt = 'Cartel de la serie ' + showName;
         }
         else {
             const showImage = showImageGlobal.medium;
             showImageEl.src = showImage;
-            showImageEl.alt = 'Cartel de la serie ' + showName;
         }
+        showImageEl.alt = 'Cartel de la serie ' + showName;
         showNameEl.classList.add('show-title');
         showLi.classList.add('show__element');
         showLi.classList.add('no-favourite');
@@ -43,45 +39,44 @@ function printFavourites() {
         const favouriteName = favourite.name;
         const showLi = document.createElement('li');
         const showNameEl = document.createElement('h3');
-        const showImageEl = document.createElement('img');
+        const showImageEl = document.createElement('div');
         const showNameContent = document.createTextNode(favouriteName);
         const favouriteImage = favourite.image;
         showLi.classList.add('favourite');
-        showImageEl.src = favouriteImage;
+        showImageEl.classList.add('little-image');
+        showNameEl.classList.add('little-name');
+        showImageEl.setAttribute('style', `background-image:url("${favouriteImage}"`);
         showNameEl.appendChild(showNameContent);
         showLi.appendChild(showImageEl);
         showLi.appendChild(showNameEl);
         favouriteListEl.appendChild(showLi);
     }
 }
+function likeThisShow(event) {
+    const showElement = event.currentTarget;
+    const showImage = showElement.childNodes[0].src;
+    const showName = showElement.childNodes[1].innerHTML;
+    showElement.classList.add('like');
+
+    if (showElement.classList.contains('no-favourite')) {
+        let obj = {};
+        obj["name"] = showName;
+        obj["image"] = showImage;
+        favouritesArray.push(obj);
+        console.log(favouritesArray);
+        favouriteListEl.innerHTML = '';
+        showElement.classList.remove('no-favourite');
+        localStorage.setItem('favouritesArray', JSON.stringify(favouritesArray));
+        printFavourites();
+    }
+    else {
+    }
+}
 function likeShow() {
     const showList = document.querySelectorAll('.no-favourite');
     for (let show of showList)
         show.addEventListener('click', likeThisShow);
-    function likeThisShow(event) {
-        const showElement = event.currentTarget;
-        const showImage = showElement.childNodes[0].src;
-        const showName = showElement.childNodes[1].innerHTML;
-        showElement.classList.toggle('like');
-
-        if (showElement.classList.contains('no-favourite')) {
-            let obj = {};
-            obj["name"] = showName;
-            obj["image"] = showImage;
-            favouritesArray.push(obj);
-            console.log(favouritesArray);
-            favouriteListEl.innerHTML = '';
-            showElement.classList.remove('no-favourite');
-            localStorage.setItem('favouritesArray', JSON.stringify(favouritesArray));
-            printFavourites();
-        }
-        else {
-        }
-    }
-
 }
-
-
 function searchSeries() {
     //clear past search
     seriesListEl.innerHTML = '';
@@ -93,7 +88,6 @@ function searchSeries() {
         .then(function (data) {
             printerSeries(data);
             likeShow();
-
         });
 }
 buttonEl.addEventListener('click', searchSeries);
