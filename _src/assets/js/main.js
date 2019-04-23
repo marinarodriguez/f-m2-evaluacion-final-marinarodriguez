@@ -9,23 +9,33 @@ let favouritesArray = savedFavourites || [];
 const deleteButtonEl = document.querySelector('.btn__delete');
 printFavourites();
 
-function getUnique(arr, comp) {
-    const unique = arr
-        .map(e => e[comp])
+// function getUnique(arr, comp) {
+//     const unique = arr
+//         .map(e => e[comp])
 
-        // store the keys of the unique objects
-        .map((e, i, final) => final.indexOf(e) === i && i)
+//         // store the keys of the unique objects
+//         .map((e, i, final) => final.indexOf(e) === i && i)
 
-        // eliminate the dead keys & store unique objects
-        .filter(e => arr[e]).map(e => arr[e]);
+//         // eliminate the dead keys & store unique objects
+//         .filter(e => arr[e]).map(e => arr[e]);
 
-    return unique;
+//     return unique;
+// }
+function containsObject(x, array) {
+        for (let i=0; i<array.length; i++){
+        if (x.id === array[i].id) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }
-
 const printerSeries = data => {
     for (let showEl of data) {
         const seriesEl = showEl.show;
         const showName = seriesEl.name;
+        const showId = seriesEl.id;
         const showLi = document.createElement('li');
         const showNameEl = document.createElement('h3');
         const showImageEl = document.createElement('img');
@@ -42,6 +52,7 @@ const printerSeries = data => {
         showNameEl.classList.add('show-title');
         showLi.classList.add('show__element');
         showLi.classList.add('no-favourite');
+        showLi.setAttribute("id", showId);
         showNameEl.appendChild(showNameContent);
         showLi.appendChild(showImageEl);
         showLi.appendChild(showNameEl);
@@ -49,13 +60,14 @@ const printerSeries = data => {
     }
 }
 function printFavourites() {
-    for (let favourite of getUnique(favouritesArray, 'image')) {
+    for (let favourite of favouritesArray) {
         const favouriteName = favourite.name;
         const showLi = document.createElement('li');
         const showNameEl = document.createElement('h3');
         const showImageEl = document.createElement('div');
         const showNameContent = document.createTextNode(favouriteName);
         const favouriteImage = favourite.image;
+        const favouriteId = favourite.id;
         showLi.classList.add('favourite');
         showImageEl.classList.add('little-image');
         showNameEl.classList.add('little-name');
@@ -63,6 +75,7 @@ function printFavourites() {
         showNameEl.appendChild(showNameContent);
         showLi.appendChild(showImageEl);
         showLi.appendChild(showNameEl);
+        showLi.setAttribute("id", favouriteId);
         favouriteListEl.appendChild(showLi);
     }
 }
@@ -70,15 +83,21 @@ const likeThisShow = event => {
     const showElement = event.currentTarget;
     const showImage = showElement.childNodes[0].src;
     const showName = showElement.childNodes[1].innerHTML;
+    const showId = showElement.getAttribute("id");
     showElement.classList.toggle('like');
-        let obj = {};
-        obj["name"] = showName;
-        obj["image"] = showImage;
+    const obj = {};
+    obj["name"] = showName;
+    obj["image"] = showImage;
+    obj["id"] = showId;
+    if (containsObject(obj, favouritesArray)) {
+    }
+    else {
         favouritesArray.push(obj);
         favouriteListEl.innerHTML = '';
-        localStorage.setItem('favourites', JSON.stringify(getUnique(favouritesArray, 'image')));
+        localStorage.setItem('favourites', JSON.stringify(favouritesArray));
         printFavourites();
-        console.log(getUnique(favouritesArray, 'image'));
+    }
+    obj = {};
 }
 const likeShow = () => {
     const showList = document.querySelectorAll('.no-favourite');
@@ -105,12 +124,7 @@ const removeFavourites = () => {
     console.log(seriesListEl.children);
     const children = seriesListEl.children;
     for (let child of children) {
-        if (child.classList.contains('no-favourite')) {
-        }
-        else {
-            child.classList.add('no-favourite');
             child.classList.remove('like');
-        }
     }
 }
 buttonEl.addEventListener('click', searchSeries);
