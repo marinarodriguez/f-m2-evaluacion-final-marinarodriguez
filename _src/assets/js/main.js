@@ -4,10 +4,23 @@ const seriesListEl = document.querySelector('.series__list');
 const inputEl = document.querySelector('.search');
 const buttonEl = document.querySelector('.btn');
 const favouriteListEl = document.querySelector('.favourites__list');
-const savedFavourites = JSON.parse(localStorage.getItem('favouritesArray'));
+const savedFavourites = JSON.parse(localStorage.getItem('favourites'));
 let favouritesArray = savedFavourites || [];
 const deleteButtonEl = document.querySelector('.btn__delete');
 printFavourites();
+
+function getUnique(arr, comp) {
+    const unique = arr
+        .map(e => e[comp])
+
+        // store the keys of the unique objects
+        .map((e, i, final) => final.indexOf(e) === i && i)
+
+        // eliminate the dead keys & store unique objects
+        .filter(e => arr[e]).map(e => arr[e]);
+
+    return unique;
+}
 
 const printerSeries = data => {
     for (let showEl of data) {
@@ -36,7 +49,7 @@ const printerSeries = data => {
     }
 }
 function printFavourites() {
-    for (let favourite of favouritesArray) {
+    for (let favourite of getUnique(favouritesArray, 'image')) {
         const favouriteName = favourite.name;
         const showLi = document.createElement('li');
         const showNameEl = document.createElement('h3');
@@ -57,20 +70,15 @@ const likeThisShow = event => {
     const showElement = event.currentTarget;
     const showImage = showElement.childNodes[0].src;
     const showName = showElement.childNodes[1].innerHTML;
-    showElement.classList.add('like');
-    if (showElement.classList.contains('no-favourite')) {
+    showElement.classList.toggle('like');
         let obj = {};
         obj["name"] = showName;
         obj["image"] = showImage;
         favouritesArray.push(obj);
         favouriteListEl.innerHTML = '';
-        showElement.classList.remove('no-favourite');
-        localStorage.setItem('favouritesArray', JSON.stringify(favouritesArray));
+        localStorage.setItem('favourites', JSON.stringify(getUnique(favouritesArray, 'image')));
         printFavourites();
-        console.log(getUnique(favouritesArray, 'name'));
-    }
-    else {
-    }
+        console.log(getUnique(favouritesArray, 'image'));
 }
 const likeShow = () => {
     const showList = document.querySelectorAll('.no-favourite');
@@ -91,7 +99,7 @@ function searchSeries() {
         });
 }
 const removeFavourites = () => {
-    localStorage.removeItem('favouritesArray');
+    localStorage.removeItem('favourites');
     favouriteListEl.innerHTML = '';
     favouritesArray = [];
     console.log(seriesListEl.children);
@@ -107,17 +115,4 @@ const removeFavourites = () => {
 }
 buttonEl.addEventListener('click', searchSeries);
 deleteButtonEl.addEventListener('click', removeFavourites);
-
-function getUnique(arr, comp) {
-    const unique = arr
-        .map(e => e[comp])
-
-        // store the keys of the unique objects
-        .map((e, i, final) => final.indexOf(e) === i && i)
-
-        // eliminate the dead keys & store unique objects
-        .filter(e => arr[e]).map(e => arr[e]);
-
-    return unique;
-}
 
