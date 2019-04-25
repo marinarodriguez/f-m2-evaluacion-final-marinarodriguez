@@ -7,6 +7,7 @@ const favouriteListEl = document.querySelector('.favourites__list');
 const savedFavourites = JSON.parse(localStorage.getItem('favourites'));
 let favouritesArray = savedFavourites || [];
 const deleteButtonEl = document.querySelector('.btn__delete');
+const logButtonEl = document.querySelector('.log');
 printFavourites();
 
 function printFavourites() {
@@ -34,18 +35,23 @@ const printerSeries = data => {
         const seriesEl = showEl.show;
         const showName = seriesEl.name;
         const showId = seriesEl.id;
+        const showStatus = seriesEl.status;
         const showLi = document.createElement('li');
         const showNameEl = document.createElement('h3');
+        const showStatusEl = document.createElement('p');
         const showImageEl = document.createElement('img');
+        const showStatusContent = document.createTextNode(showStatus);
         const showNameContent = document.createTextNode(showName);
         const showImageGlobal = seriesEl.image;
         showNameEl.classList.add('show-title');
         showLi.classList.add('show__element');
         showLi.classList.add('no-favourite');
+        showStatusEl.appendChild(showStatusContent);
         showLi.setAttribute("id", showId);
         showNameEl.appendChild(showNameContent);
         showLi.appendChild(showImageEl);
         showLi.appendChild(showNameEl);
+        showLi.appendChild(showStatusEl);
         seriesListEl.appendChild(showLi);
         showImageEl.alt = 'Cartel de la serie ' + showName;
         if (!showImageGlobal) {
@@ -109,6 +115,14 @@ const removeAllFavourites = () => {
         child.classList.remove('like');
     }
 };
+
+function handleButtonLogClick (){
+    for (let favourite of favouritesArray){
+        const favouriteName = favourite.name;
+        console.log(favouriteName);
+    }
+    
+}
 buttonEl.addEventListener('click', searchSeries);
 deleteButtonEl.addEventListener('click', removeAllFavourites);
-
+logButtonEl.addEventListener('click', handleButtonLogClick);
